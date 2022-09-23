@@ -13,8 +13,9 @@ class Camera:
         self.__done = False
 
     def demarrer(self):
-        self.__vcap.set(cv2.CAP_PROP_FRAME_WIDTH, 320) 
-        self.__vcap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+        self.__vcap.set(cv2.CAP_PROP_FRAME_WIDTH, 640) #320
+        self.__vcap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)#240
+        self.__vcap.set(cv2.CAP_PROP_FPS,60)
         while not self.__done:
             ok,image=self.__vcap.read()
             if not ok:
@@ -22,7 +23,7 @@ class Camera:
                 break
 
             cv2.imshow("Vidéo",image)
-            choix = cv2.waitKey(1)
+            choix = cv2.waitKey(1) #1
 
             if choix == ord('x'):
                 self.__done = True
