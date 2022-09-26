@@ -1,5 +1,3 @@
-#ne pas remettre
-
 import pygame
 import PyLidar3
 from math import cos, sin, pi
