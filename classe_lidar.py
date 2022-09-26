@@ -4,7 +4,7 @@
 # 
 # #Serial port to which lidar connected, Get it from device manager windows
 # #In linux type in terminal -- ls /dev/tty* 
-# port = "/dev/ttyUSB0" #linux
+# port = "/dev/ttyUSB1" #linux
 # Obj = PyLidar3.YdLidarX4(port) #PyLidar3.your_version_of_lidar(port,chunk_size) 
 # if(Obj.Connect()):
 #     print(Obj.GetDeviceInfo())
@@ -25,6 +25,8 @@ import matplotlib.pyplot as plt
 import math    
 import time
 
+is_plot = True
+
 def draw():
     global is_plot
     while is_plot:
@@ -37,16 +39,16 @@ def draw():
     plt.close("all")
     
                 
-is_plot = True
+
 x=[]
 y=[]
 for _ in range(360):
     x.append(0)
     y.append(0)
 
-port =  "/dev/ttyUSB1" #windows
+port =  "/dev/ttyUSB0" #windows
 Obj = PyLidar3.YdLidarX4(port)  #PyLidar3.your_version_of_lidar(port,chunk_size)
-#threading.Thread(target=draw).start()
+threading.Thread(target=draw).start()
 if(Obj.Connect()):
     print(Obj.GetDeviceInfo())
     gen = Obj.StartScanning()

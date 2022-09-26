@@ -4,7 +4,7 @@ import time
 import serial
 try:
     ser = serial.Serial()
-    ser.port = '/dev/ttyACM1'
+    ser.port = '/dev/ttyACM0'
     #ser.port = '/dev/bus/usb/001/017'
     
     ser.baudrate = 115200
