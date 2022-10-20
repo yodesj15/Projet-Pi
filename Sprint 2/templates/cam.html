@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"> -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: lightgray;
+}
+.main{
+    position: absolute;
+    margin-top: 15vh;
+    margin-left: 50vh;
+}
+.left_box{
+    position: absolute;
+    
+    margin-top: 30vh;
+    margin-left: 10vh;
+
+}
+
+.right_box{
+    position: absolute;
+    margin-top: 30vh;
+    margin-left: 160vh;
+
+}
+img{
+    width: 70%;
+    height:20%; 
+    background-attachment: fixed;
+}
+.button {text-decoration: none; font-size: 32px;}
+          
+          #upper-row {margin-left: 40px;}
+          
+          #lower-row {margin-left: 40px;}
+          
+          input[type="range"] {appearance: slider-vertical;}
+          
+          datalist {display: flex;flex-direction: column;justify-content: space-between;width: 200px;}
+
+          option {padding: 0;}
+
+</style>
+</head>
+
+<title>Make - PiStream</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<body>
+<div class="left_box" style="display: inline-block;">
+    <div id="upper-row">
+        <a class="button" href="/moteur/forward" class="button">⮉</a>
+    </div>
+    <div>
+        <a class="button" href="/moteur/left" class="button">⮈</a>
+        <a class="button" href="/moteur/stop" class="button">⛔</a>
+        <a class="button" href="/moteur/right" class="button">⮊</a>
+    </div>
+    <div id="lower-row">
+        <a class="button" href="/moteur/backward" class="button">⮋</a>
+    </div>
+</div>
+
+<div class="main" id="newpost">
+    <img  class="camera-bg"  id="bg" class="center" src="{{ url_for('video_feed') }}">
+    <!-- <img  class="camera-bg" id="bg" class="center" src="https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png"> -->
+    
+</div>
+<div class="right_box">
+    <div style="display: inline-block; margin-top:20px">
+        <input type="range" id="vol" name="vol" min="0" max="10">
+    </div>
+    
+</div>
+
+
+
+</body>
+</html>
