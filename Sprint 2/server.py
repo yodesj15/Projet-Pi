@@ -77,7 +77,9 @@ def index():
     return render_template('index.html')
     # return render_template('cam.html')
     
-
+@app.route('/joy')
+def joy():
+    return render_template('joy.html')
 
 @app.route('/video_feed')
 def video_feed():
@@ -93,10 +95,6 @@ def action(deviceName, action):
         actionneur = ledYlw
     if deviceName == 'moteur':
         actionneur = MoteurDENB
-    # if deviceName == 'camera':
-    #     actionneur = Camera()
-    #     if action == 'on':
-    #         actionneur.execution()
 
     if action == "on":
         actionneur.on()
