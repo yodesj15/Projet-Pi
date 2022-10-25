@@ -1,93 +1,206 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+ The MIT License (MIT)
+
+ This file is part of the JoyStick Project (https://github.com/bobboteck/JoyStick).
+ Copyright (c) 2015 Roberto D'Amico (Bobboteck).
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+-->
 <html>
+
 <head>
-<!-- <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"> -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: lightgray;
-}
-.main{
-    position: absolute;
-    margin-top: 15vh;
-    margin-left: 50vh;
-    width: 320px;
-    height: 240px;
+    <title>Joy</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Example page of use pure Javascript JoyStick">
+    <meta name="author" content="Roberto D'Amico">
+    <script src="jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="http://bobboteck.github.io/img/roberto-damico-bobboteck.png">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-}
-div{
-    border: 1px solid red;
-    
-}
-.left_box{
-    position: absolute;
-    
-    margin-top: 30vh;
-    margin-left: 10vh;
+        body {
+            margin: 0px;
+            padding: 0px;
+            font-family: monospace;
+        }
 
-}
+        .row {
+            display: inline-flex;
+            clear: both;
+        }
 
-.right_box{
-    position: absolute;
-    margin-top: 30vh;
-    margin-left: 160vh;
+        .columnLateral {
+            float: left;
+            width: 15%;
+            min-width: 300px;
+        }
 
-}
-img{
+        .columnCetral {
+            float: left;
+            width: 70%;
+            min-width: 300px;
+        }
+
+        #joy2Div {
+            width: 200px;
+            height: 200px;
+            margin: 50px
+        }
+
+        #joystick {
+            border: 1px solid #FF0000;
+        }
+
+        #joystick2 {
+            border: 1px solid #0000FF;
+        }
+        img{
     width: 320px;
     height:240px; 
     background-attachment: fixed;
 }
-.button {text-decoration: none; font-size: 32px;}
-          
-          #upper-row {margin-left: 40px;}
-          
-          #lower-row {margin-left: 40px;}
-          
-          input[type="range"] {appearance: slider-vertical;}
-          
-          datalist {display: flex;flex-direction: column;justify-content: space-between;width: 200px;}
-
-          option {padding: 0;}
-
-</style>
+    </style>
+    <script src="{{url_for('static', filename='joy.js')}}"></script>
 </head>
 
-<title>Make - PiStream</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 <body>
-<div class="left_box" style="display: inline-block;">
-    <div id="upper-row">
-        <a class="button" href="/moteur/forward" class="button">⮉</a>
-    </div>
-    <div>
-        <a class="button" href="/moteur/left" class="button">⮈</a>
-        <a class="button" href="/moteur/stop" class="button">⛔</a>
-        <a class="button" href="/moteur/right" class="button">⮊</a>
-    </div>
-    <div id="lower-row">
-        <a class="button" href="/moteur/backward" class="button">⮋</a>
-    </div>
-</div>
 
-<div class="main" id="newpost">
-    <!-- img 224 x 168 -->
-    <img  class="camera-bg"  id="bg" class="center" src="{{ url_for('video_feed') }}">
-    <!-- <img  class="camera-bg" id="bg" class="center" src="https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png"> -->
-    
-</div>
-<div class="right_box">
-    <div style="display: inline-block; margin-top:20px">
-        <input type="range" id="vol" name="vol" min="0" max="10">
+    <!-- Example of two JoyStick integrated in the page structure -->
+    <div class="row">
+        <div class="columnLateral">
+            <div id="joy1Div" style="width:200px;height:200px;margin:50px"></div>
+            Posizione X:<input id="joy1PosizioneX" type="text" /><br />
+				Posizione Y:<input id="joy1PosizioneY" type="text" /><br />
+				Direzione:<input id="joy1Direzione" type="text" /><br />
+				X :<input id="joy1X" type="text" /></br>
+				Y :<input id="joy1Y" type="text" />
+        </div>
     </div>
-    
-</div>
+
+    <div class="main" id="newpost">
+        <!-- img 224 x 168 -->
+        <img  class="camera-bg"  id="bg" class="center" src="{{ url_for('video_feed') }}">
+        <!-- <img  class="camera-bg" id="bg" class="center" src="https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png"> -->
+        
+    </div>
+    <script type="text/javascript">
+        function httpGet(theUrl) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", theUrl, false); // false for synchronous request
+            xmlHttp.send(null);
+            return xmlHttp.responseText;
+        }
+        // Create JoyStick object into the DIV 'joy1Div'
+        let activer = false;
+        var joy1IinputPosX = document.getElementById("joy1PosizioneX");
+        var joy1InputPosY = document.getElementById("joy1PosizioneY");
+        var joy1Direzione = document.getElementById("joy1Direzione");
+        var joy1X = document.getElementById("joy1X");
+        var joy1Y = document.getElementById("joy1Y");
+
+        // Create JoyStick object into the DIV 'joy1Div'
+        var Joy1 = new JoyStick('joy1Div', {}, function (stickData) {
+            milieu = 100
+            if (!activer) {
+                if (stickData.cardinalDirection == 'N' && stickData.yPosition < milieu) {
+                    activer = true;
+                    console.log('up');
+
+
+                    var url = "/moteur/forward"; // the script where you handle the form input.
+
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        success: function () {
+                            console.log('up');
+                        }
+                    });
+
+                }
+                else if (stickData.cardinalDirection == "S" && stickData.yPosition > milieu) {
+                    activer = true;
+                    var url = "/moteur/backward"; // the script where you handle the form input.
+
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        success: function () {
+                            console.log('down');
+                        }
+                    });
+                }
+                else if (stickData.cardinalDirection == 'E' && stickData.xPosition > milieu) {
+                    activer = true;
+                    var url = "/moteur/left"; // the script where you handle the form input.
+
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        success: function () {
+                            console.log('right');
+                        }
+                    });
+                }
+                else if (stickData.cardinalDirection == 'W' && stickData.xPosition < milieu) {
+                    activer = true;
+                    var url = "/moteur/right"; // the script where you handle the form input.
+
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        success: function () {
+                            console.log('left');
+                        }
+                    });
+                }
+            }
+            else {
+                if (stickData.cardinalDirection == 'C' && stickData.y == 0) {
+                    activer = false;
+                    console.log('stop');
+                    var url = "/moteur/stop"; // the script where you handle the form input.
+
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        success: function () {
+                            console.log('stop');
+                        }
+                    });
+                }
+            }
 
 
 
+            joy1IinputPosX.value = stickData.xPosition;
+            joy1InputPosY.value = stickData.yPosition;
+            joy1Direzione.value = stickData.cardinalDirection;
+            joy1X.value = stickData.x;
+            joy1Y.value = stickData.y;
+        });
+
+    </script>
 </body>
+
 </html>
