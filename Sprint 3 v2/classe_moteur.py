@@ -53,8 +53,8 @@ class Moteur:
         self.MoteurDIN3.on()
         self.MoteurGIN2.on()
         self.MoteurGENA.on()
-        if v <= 4: 
-            vitesse = 5
+        if v <= 0.4: 
+            vitesse = 0.5
         else: 
             vitesse = v
         self.MoteurGENA.value = vitesse
@@ -70,8 +70,8 @@ class Moteur:
         self.MoteurGIN1.on()
         self.MoteurDENB.on()
         self.MoteurDIN4.on()
-        if v <= 4: 
-            vitesse = 5
+        if v <= 0.4: 
+            vitesse = 0.5
         else: 
             vitesse = v
         self.MoteurGENA.value = vitesse
