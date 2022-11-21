@@ -54,7 +54,7 @@ class RadioNav:
             data = data.strip("\\r\\n'")
             data = data.strip("POS,")
             data = data.split(',')
-            self.robot.set_pos(data[0],data[1],data[2]) 
+            self.robot.set_pos(float(data[0]),float(data[1]),float(data[2])) 
 
         else: 
             print("Valeur robot non changé")
