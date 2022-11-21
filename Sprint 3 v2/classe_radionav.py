@@ -13,7 +13,7 @@ class RadioNav:
         self.x_pos = 0
         self.y_pos = 0
         self.z_pos = 0
-        self.distance = 0
+        self.certitude = 0
 
         try:
             self.ser = serial.Serial()
@@ -39,7 +39,8 @@ class RadioNav:
             try:
                 data = str(self.ser.readline())
                 #convert data
-                print(self.return_pos_avec_distance(data))
+                self.change_pos_robot(data)
+                # self.return_pos_avec_distance(data)
                 time.sleep(1)
             except Exception as e:
                 print(e)
@@ -47,18 +48,28 @@ class RadioNav:
             except KeyboardInterrupt:
                 self.ser.close()
 
-    def return_pos_avec_distance(self, data):
-        
+    def change_pos_robot(self,data):
         if("POS" in data and "dwm" not in data):
             data = data.strip("b'")
             data = data.strip("\\r\\n'")
             data = data.strip("POS,")
             data = data.split(',')
-            self.x_pos = str(data[0])
-            self.y_pos = str(data[1])
-            self.z_pos = str(data[2])
-            self.distance = str(data[3])
-            pos = str(self.x_pos + (",") + self.y_pos + (",") +
-                        self.z_pos + " Distance : " + self.distance)
-            return pos
+            self.robot.set_pos(data[0],data[1],data[2]) 
+
+        else: 
+            print("Valeur robot non changé")
+    # def return_pos_avec_distance(self, data):
+        
+    #     if("POS" in data and "dwm" not in data):
+    #         data = data.strip("b'")
+    #         data = data.strip("\\r\\n'")
+    #         data = data.strip("POS,")
+    #         data = data.split(',')
+    #         self.x_pos = str(data[0])
+    #         self.y_pos = str(data[1])
+    #         self.z_pos = str(data[2])
+    #         self.distance = str(data[3])
+    #         pos = str(self.x_pos + (",") + self.y_pos + (",") +
+    #                     self.z_pos + " Distance : " + self.distance)
+    #         return pos
 
