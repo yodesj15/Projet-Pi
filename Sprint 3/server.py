@@ -63,8 +63,8 @@ def genMap(map, radio_nav):
 
 def genMapLidar(map, radio_nav):
     while True:
-        #ici il faut mettre la fonction qui dessine dans une map
-        f = map.get_map(radio_nav)
+        
+        f = map.get_map(radio_nav) #ici il faut mettre la fonction qui dessine dans une map
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + f + b'\r\n\r\n')
 
@@ -107,7 +107,7 @@ def map_feed():
 
 @app.route('/lidar_feed')
 def lidar_feed():
-    #ici il faut mettre la fonction qui dessine dans une map
+    #ici il faut mettre la fonction qui dessine dans une map dans le return
     return Response(genMap(map, radio_nav),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
