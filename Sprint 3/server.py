@@ -16,8 +16,8 @@ app = Flask(__name__)
 pi_camera = VideoCamera(flip=False)  # flip pi camera if upside down.
 
 robot = Robot()
-lidar = Lidar("/dev/ttyUSB1",robot)  # "/dev/ttyUSB1"    "/dev/ttyACM0"
-radio_nav = RadioNav("/dev/ttyACM1",robot)
+lidar = Lidar("/dev/ttyUSB1", robot)  # "/dev/ttyUSB1"    "/dev/ttyACM0"
+radio_nav = RadioNav("/dev/ttyACM1", robot)
 
 Etat = Enum('Etat', 'innactif actif')
 
@@ -43,6 +43,8 @@ threadLidar.start()
 
 threadRadioNav = Thread(target=radio_nav.execution)
 threadRadioNav.start()
+
+
 def gen(camera):
     #get camera frame
     while True:
@@ -51,17 +53,32 @@ def gen(camera):
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 
-def genMap(map,radio_nav):
+def genMap(map, radio_nav):
     #get camera frame
     while True:
         f = map.get_map(radio_nav)
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + f + b'\r\n\r\n')
 
+
+def genMapLidar(map, radio_nav):
+    while True:
+        #ici il faut mettre la fonction qui dessine dans une map
+        f = map.get_map(radio_nav)
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + f + b'\r\n\r\n')
+
+
 @app.route('/offLidar')
 def offLidar():
    lidar.disconnect()
    print("Lidar reset")
+
+
+@app.route('/showLidar')
+def showLidar():
+    #ici tu dois ajouter pour faire afficher la map
+    pass
 
 
 @app.route('/')
@@ -83,22 +100,30 @@ def video_feed():
 
 @app.route('/map_feed')
 def map_feed():
-    
-    return Response(genMap(map,radio_nav),
+
+    return Response(genMap(map, radio_nav),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-#@app.route('/reset')
-#def reset():
-#    lidar.reset_lidar()
-#    print("Lidar reset")
+@app.route('/lidar_feed')
+def lidar_feed():
+    #ici il faut mettre la fonction qui dessine dans une map
+    return Response(genMap(map, radio_nav),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+@app.route('/reset')
+def reset():
+   print("Lidar + radionav reset")
+   lidar.reset_lidar()
+   radio_nav.reset_radio_nav()
 
 
 @app.route("/<deviceName>/<action>/<vitesse>")
 def action(deviceName, action, vitesse):
     actionneur = ""
     v = float(vitesse) * 0.1
-    
+
     if deviceName == 'moteur':
         actionneur = robot.moteur
 

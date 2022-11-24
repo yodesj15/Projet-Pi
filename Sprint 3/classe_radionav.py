@@ -13,7 +13,7 @@ class RadioNav:
         self.x_pos = 0
         self.y_pos = 0
         self.z_pos = 0
-        self.distance = 0
+        self.certitude = 0
 
         try:
             self.ser = serial.Serial()
@@ -21,6 +21,12 @@ class RadioNav:
             self.ser.open()
         except Exception as e:
             print(e)
+
+    def reset_radio_nav(self):
+        self.x_pos = 0
+        self.y_pos = 0
+        self.z_pos = 0
+        self.certitude = 0
 
     def connection(self, ser, port):
         ser.port = port
@@ -58,7 +64,7 @@ class RadioNav:
                 self.x_pos = float(data[0])
                 self.y_pos = float(data[1])
                 self.z_pos = float(data[2])
-                self.distance = str(data[3])
+                self.certitude = str(data[3])
                 self.robot.setPosition(self.x_pos, self.y_pos, self.z_pos)
             except Exception as e:
                 print(e)
