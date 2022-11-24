@@ -1,0 +1,160 @@
+body {
+    background: linear-gradient(to right, #232526, #414345);
+  
+    max-width: 100%;
+    max-height: 100%;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* portait */
+  @media screen and (orientation: portrait) {
+    .conteneur {
+      display: flex;
+      flex-direction: column-reverse;
+      text-align: center;
+      height: 100%;
+      width: 100%;
+      margin-top: 1vh;
+    }
+  
+    .cam {
+      flex: 1;
+      height: 170%;
+      margin-left: 5%;
+      width: 90%;
+    }
+  
+    .joystick {
+      flex: 1;
+    }
+  
+    .switchBox {
+      flex: 1;
+      position: absolute;
+  
+      margin-left: 100px;
+    }
+  
+    img {
+      height: 60vh;
+      max-height: 100%;
+      max-width: 100%;
+      width: 90vh;
+      background-attachment: fixed;
+      border: 10px solid black;
+      border-radius: 30px;
+      display: block;
+    }
+  
+    #joy1Div {
+      width: 100%;
+      height: 100%;
+    }
+  
+    #toggle {
+      font-style: bold;
+    }
+  
+    #reset {
+      margin-top: 20px;
+      font-size: 160%;
+      padding: 5px 10px;
+    }
+  }
+  
+  /* Landscape orientation */
+  @media screen and (orientation: landscape) {
+    .conteneur {
+      display: flex;
+      flex-direction: row;
+  
+      text-align: center;
+  
+      max-height: 100%;
+      max-width: 100%;
+    }
+  
+    .cam {
+      flex: 2;
+      margin-top: 0.5%;
+      max-width: 100vh;
+      max-height: 100vh;
+    }
+  
+    .joystick {
+      flex: 1;
+  
+      height: 80vh;
+  
+      width: 30vh;
+      margin-right: 0.5%;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+  
+    .switchBox {
+      flex: 1;
+      max-height: 100vh;
+      width: 100%;
+  
+      margin-top: 25vh;
+    }
+  
+    img {
+      width: 90vh;
+      height: 90vh;
+      background-attachment: fixed;
+      border: 7px solid black;
+      border-radius: 30px;
+  
+      display: block;
+    }
+  
+    #joy1Div {
+      margin-top: 20vh;
+    }
+  
+    #toggle {
+      margin-top: 0vh;
+      font-style: bold;
+    }
+  
+    #reset {
+      margin-top: 20px;
+    }
+  }
+  
+  button {
+    font-size: 160%;
+    padding: 5px 10px;
+  }
+  
+  #slider {
+    position: relative;
+    transform: scale(1.35);
+    transform-origin: 0 0;
+    right: 20px;
+    bottom: 10px;
+  }
+  
+  p {
+    font-size: 150%;
+    color: lightgray;
+  }
+  
+  #slider:hover {
+    opacity: 1;
+    background-color: green;
+  }
+  
+  div2 {
+    border: 2px solid red;
+  }
+  
