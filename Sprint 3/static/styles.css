@@ -135,6 +135,9 @@ body {
     font-size: 160%;
     padding: 5px 10px;
   }
+  #showLidar{
+    margin-top: 20px;
+  }
   
   #slider {
     position: relative;
@@ -153,7 +156,6 @@ body {
     opacity: 1;
     background-color: green;
   }
-  
   div2 {
     border: 2px solid red;
   }
