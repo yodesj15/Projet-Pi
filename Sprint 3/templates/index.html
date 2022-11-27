@@ -16,7 +16,7 @@
 
 
     <!-- <script src="joy.js"></script>
-    <link rel="stylesheet" href="styles.css">  -->
+    <link rel="stylesheet" href="styles.css"> -->
 
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
 
@@ -55,6 +55,8 @@
             <button id="lidarOff" type="button" class="btn btn-primary btn-lg">LIDAR OFF</button>
             <br>
             <button id="reset" type="button" class="btn btn-danger btn-lg">Reset</button>
+            <button id="showLidar" type="button" class="btn btn-warning btn-lg">LIDAR Map</button>
+
         </div>
     </div>
 
@@ -96,6 +98,20 @@
 
         });
 
+        $("#showLidar").click(function () {
+            var url = "/showLidar";
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function () {
+                    console.log("show lidar");
+                    cam.src = "{{ url_for('lidar_feed') }}";
+                    cam.alt = "lidar";
+                }
+            });
+
+        });
+
 
         $("#lidarOff").click(function () {
 
@@ -119,6 +135,7 @@
             }
             else {
                 cam.src = "{{ url_for('video_feed') }}";
+
                 cam.alt = "cam";
             }
 
@@ -182,7 +199,6 @@
             else {
                 if (stickData.cardinalDirection == 'C' && stickData.y == 0) {
                     activer = false;
-                    console.log('stop');
                     var url = "/moteur/stop/" + vitesse; // the script where you handle the form input.
 
                     $.ajax({
