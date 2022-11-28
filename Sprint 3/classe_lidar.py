@@ -11,12 +11,12 @@ class Lidar:
         self.__done = False
         self.robot = robot
         self.nbExecution = 0
-        self.tab_distance_mm_x= [] # a utilisé pour reprensété lidar dans map en X
-        self.tab_distance_mm_y= [] # a utilisé pour reprensété lidar dans map en Y
+        self.tab_p_x= [] # a utilisé pour reprensété lidar dans map en X
+        self.tab_p_y= [] # a utilisé pour reprensété lidar dans map en Y
         
         
     def getData(self):
-        distance_proche = 450
+        distance_proche = 175 # 600 proximité et 175 limite
         i = 0
         if(self.Obj.Connect()):
             gen = self.Obj.StartScanning()
@@ -24,12 +24,12 @@ class Lidar:
 
                 self.dataTab = next(gen)
                 
-                if self.nbExecution == 0:
-                    self.nbExecution += 1
-                    self.tab_distance_mm_x, self.tab_distance_mm_y = self.trouver_distance_angle(self.dataTab)
+                #if self.nbExecution == 0:
+                    #self.nbExecution += 1
+                self.tab_p_x, self.tab_p_y = self.trouver_distance_angle(self.dataTab)
                 
-                time.sleep(0.1) #1
-                print(self.dataTab[179])
+                time.sleep(0.01) #1
+                #print(self.dataTab[179])
                 if (self.dataTab[179] < distance_proche and self.dataTab[179] != 0):
                     i = i + 1
                     print('Objet devant! oups ' + str(i))
@@ -49,24 +49,23 @@ class Lidar:
     
 
     def trouver_distance_angle(self, tab):
-        tabDistanceX= [] # index0 à 359 degré 
-        tabDistanceY= [] # index0 à 359 degré 
+        tabX= [] # index0 à 359 degré 
+        tabY= [] # index0 à 359 degré
         
-          
-        for d in tab:
-            tabDistanceX.append(self.calculer_distance_point_mm("x",d,tab[d])) #ajoute dans le tabX
-            tabDistanceY.append(self.calculer_distance_point_mm("y",d,tab[d])) #ajoute dans le tabY
-        return tabDistanceX,tabDistanceY
+        for x in range(359):
+            tabX.append(self.calculer_distance_point_mm("x",x,tab[x])) #ajoute dans le tabX
+            tabY.append(self.calculer_distance_point_mm("y",x,tab[x])) #ajoute dans le tabY
+        return tabX,tabY
     
     
     def calculer_distance_point_mm(self,type_point,angle,distance):
-        distance_mm = 0
+        point = 0
         if type_point == "x":
-            distance_mm = (math.cos(angle)) * distance
+            point = (math.sin(math.radians(angle))) * distance
         else:
-            distance_mm = (math.sin(angle)) * distance
+            point = (math.cos(math.radians(angle))) * distance
             
-        return distance_mm
+        return point
             
             
 #         else:

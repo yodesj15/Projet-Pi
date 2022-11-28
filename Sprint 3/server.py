@@ -9,6 +9,7 @@ from threading import Thread
 import datetime
 from classe_map import Map
 from classe_lidar import Lidar
+from classe_radar import Radar
 from enum import Enum
 
 #threadLidarIsStarted = False
@@ -16,8 +17,9 @@ app = Flask(__name__)
 pi_camera = VideoCamera(flip=False)  # flip pi camera if upside down.
 
 robot = Robot()
-lidar = Lidar("/dev/ttyUSB1", robot)  # "/dev/ttyUSB1"    "/dev/ttyACM0"
-radio_nav = RadioNav("/dev/ttyACM1", robot)
+lidar = Lidar("/dev/ttyUSB0", robot)  # "/dev/ttyUSB1"    "/dev/ttyACM0"
+radar = Radar(lidar)
+radio_nav = RadioNav("/dev/ttyACM0", robot)
 
 Etat = Enum('Etat', 'innactif actif')
 
@@ -61,10 +63,10 @@ def genMap(map, radio_nav):
                b'Content-Type: image/jpeg\r\n\r\n' + f + b'\r\n\r\n')
 
 
-def genMapLidar(map, radio_nav):
+def genRadar(radar):
     while True:
         
-        f = map.get_map(radio_nav) #ici il faut mettre la fonction qui dessine dans une map
+        f = radar.get_radar() #ici il faut mettre la fonction qui dessine dans une map
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + f + b'\r\n\r\n')
 
@@ -78,7 +80,7 @@ def offLidar():
 @app.route('/showLidar')
 def showLidar():
     #ici tu dois ajouter pour faire afficher la map
-    pass
+    return render_template('index.html')
 
 
 @app.route('/')
@@ -108,7 +110,7 @@ def map_feed():
 @app.route('/lidar_feed')
 def lidar_feed():
     #ici il faut mettre la fonction qui dessine dans une map dans le return
-    return Response(genMap(map, radio_nav),
+    return Response(genRadar(radar),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 

@@ -55,7 +55,7 @@
             <button id="lidarOff" type="button" class="btn btn-primary btn-lg">LIDAR OFF</button>
             <br>
             <button id="reset" type="button" class="btn btn-danger btn-lg">Reset</button>
-            <button id="showLidar" type="button" class="btn btn-warning btn-lg">LIDAR Map</button>
+            <button id="showLidar" type="button" class="btn btn-warning btn-lg">LIDAR Radar</button>
 
         </div>
     </div>
@@ -99,17 +99,8 @@
         });
 
         $("#showLidar").click(function () {
-            var url = "/showLidar";
-            $.ajax({
-                type: "GET",
-                url: url,
-                success: function () {
-                    console.log("show lidar");
-                    cam.src = "{{ url_for('lidar_feed') }}";
-                    cam.alt = "lidar";
-                }
-            });
-
+            cam.src = "{{ url_for('lidar_feed') }}";
+            cam.alt = "lidar";
         });
 
 
