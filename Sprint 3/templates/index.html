@@ -15,7 +15,8 @@
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
 
-    <!-- <script src="joy.js"></script>
+    <!-- 
+    <script src="joy.js"></script>
     <link rel="stylesheet" href="styles.css"> -->
 
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
@@ -26,8 +27,8 @@
 <body>
     <div class="conteneur">
         <div class="joystick">
+            <button id="lidarOff" type="button" class="btn btn-primary btn-lg">LIDAR OFF</button>
             <div id="joy1Div"></div>
-
         </div>
 
         <div class="cam">
@@ -35,6 +36,7 @@
             <!-- <img class="camera-bg" id="bg" class="center" src="https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png">  -->
         </div>
         <div class="switchBox">
+            <button id="reset" type="button" class="btn btn-danger btn-lg">Reset</button>
             <div id="boxSlider">
                 <p>Vitesse </p>
                 <input type="range" id="slider" min="1" max="10" value="5" step="1"
@@ -43,19 +45,23 @@
 
             </div>
 
-            <div id="toggle">
-                <input type="checkbox" checked data-toggle="toggle" data-on="Caméra" data-off="Carte 2D"
-                    data-onstyle="info" data-offstyle="warning" id="switcher" name="switcher">
+            <div id="but">
+                <!-- <input type="checkbox" checked data-toggle="toggle" data-on="Caméra" data-off="Carte 2D"
+                    data-onstyle="info" data-offstyle="warning" id="switcher" name="switcher"> -->
+                <button id="showMap" type="button" class="btn btn-warning btn-lg active">Map</button>
+
+                <br>
+                <button id="showLidar" type="button" class="btn btn-dark btn-lg active">LIDAR</button>
+                <br>
+                <button id="showCam" type="button" class="btn btn-info btn-lg active">Caméra</button>
             </div>
             <!-- <div id="toggle2">
                 <input type="checkbox" checked data-toggle="toggle" data-on="Lidar ON" data-off=""
                     data-onstyle="info" data-offstyle="warning" id="switcher" name="switcher">
             </div> -->
             <br>
-            <button id="lidarOff" type="button" class="btn btn-primary btn-lg">LIDAR OFF</button>
+
             <br>
-            <button id="reset" type="button" class="btn btn-danger btn-lg">Reset</button>
-            <button id="showLidar" type="button" class="btn btn-warning btn-lg">LIDAR Radar</button>
 
         </div>
     </div>
@@ -98,6 +104,16 @@
 
         });
 
+        $("#showCam").click(function () {
+            cam.src = "{{ url_for('video_feed') }}";
+
+            cam.alt = "cam";
+        });
+
+        $("#showMap").click(function () {
+            cam.src = "{{ url_for('map_feed') }}";
+            cam.alt = "map";
+        });
         $("#showLidar").click(function () {
             cam.src = "{{ url_for('lidar_feed') }}";
             cam.alt = "lidar";
@@ -119,18 +135,6 @@
 
         });
 
-        document.getElementById('switcher').parentNode.addEventListener('click', function (event) {
-            if (this.querySelector('input[name="switcher"').checked) {
-                cam.src = "{{ url_for('map_feed') }}";
-                cam.alt = "map";
-            }
-            else {
-                cam.src = "{{ url_for('video_feed') }}";
-
-                cam.alt = "cam";
-            }
-
-        });
 
         var Joy1 = new JoyStick('joy1Div', {}, function (stickData) {
             milieu = 100
