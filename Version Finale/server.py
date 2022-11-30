@@ -21,7 +21,7 @@ from enum import Enum
 
 app = Flask(__name__)
 pi_camera = VideoCamera(flip=False)  # flip pi camera if upside down.
-
+Etat = Enum('Etat', 'innactif actif')
 robot = Robot()
 lidar = Lidar("/dev/ttyUSB0", robot)  # "/dev/ttyUSB1"    "/dev/ttyACM0"
 radar = Radar(lidar)
@@ -137,14 +137,19 @@ def action(deviceName, action, vitesse):
         actionneur.off()
     if action == "forward":
         robot.moteur.avancer(v)
+        robot.etat = Etat.actif
     if action == "backward":
         robot.moteur.reculer(v)
+        robot.etat = Etat.actif
     if action == "left":
         robot.moteur.tourner_gauche(v)
+        robot.etat = Etat.actif
     if action == "right":
         robot.moteur.tourner_droite(v)
+        robot.etat = Etat.actif
     if action == "stop":
         robot.moteur.reset()
+        robot.etat = Etat.innactif
     if action == "speed":
         robot.moteur.__vitesse = v
 
